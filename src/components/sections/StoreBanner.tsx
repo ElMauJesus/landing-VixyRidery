@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { getAssetPath } from "@/utils/basePath";
 import styles from "./StoreBanner.module.css";
 
 export const StoreBanner: React.FC = () => {
@@ -18,7 +19,8 @@ export const StoreBanner: React.FC = () => {
         >
           <a href="#tienda" className={styles.bannerLink} aria-label="Tienda Oficial Vixy Rider">
             <Image
-              src="/icons/footer/vixybanner1.png"
+              src={getAssetPath("/icons/footer/vixybanner1.png")}
+
               alt="Tienda Oficial Vixy Rider"
               width={1400}
               height={500}

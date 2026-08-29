@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Download, User } from "lucide-react";
+import { getAssetPath } from "@/utils/basePath";
 import { Button } from "../ui/Button";
 import { PhoneMockup } from "../graphics/PhoneMockup";
 import { MascotIllustration } from "../graphics/MascotIllustration";
@@ -53,7 +54,7 @@ export const HeroSection: React.FC = () => {
                 aria-label="Disponible en Google Play"
               >
                 <Image
-                  src="/icons/footer/googleplay.png"
+                  src={getAssetPath("/icons/footer/googleplay.png")}
                   alt="Google Play"
                   width={160}
                   height={48}
@@ -73,7 +74,8 @@ export const HeroSection: React.FC = () => {
                 aria-label="Consígalo en App Store"
               >
                 <Image
-                  src="/icons/footer/appstore.png"
+                  src={getAssetPath("/icons/footer/appstore.png")}
+
                   alt="App Store"
                   width={160}
                   height={48}

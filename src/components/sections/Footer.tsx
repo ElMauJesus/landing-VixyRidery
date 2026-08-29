@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { getAssetPath } from "@/utils/basePath";
 import { VixyLogo } from "../graphics/VixyLogo";
 import styles from "./Footer.module.css";
 
@@ -27,7 +28,7 @@ export const Footer: React.FC = () => {
               aria-label="Instagram"
             >
               <Image
-                src="/icons/footer/instagram.png"
+                src={getAssetPath("/icons/footer/instagram.png")}
                 alt="Instagram"
                 width={22}
                 height={22}
@@ -54,7 +55,8 @@ export const Footer: React.FC = () => {
               aria-label="TikTok"
             >
               <Image
-                src="/icons/footer/tiktok.png"
+                src={getAssetPath("/icons/footer/tiktok.png")}
+
                 alt="TikTok"
                 width={20}
                 height={20}

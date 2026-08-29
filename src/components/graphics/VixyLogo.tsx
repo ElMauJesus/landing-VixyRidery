@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import { getAssetPath } from "@/utils/basePath";
 import styles from "./VixyLogo.module.css";
 
 interface VixyLogoProps {
@@ -17,7 +18,8 @@ export const VixyLogo: React.FC<VixyLogoProps> = ({
   return (
     <div className={`${styles.logoContainer} ${styles[size]} ${className}`}>
       <Image
-        src="/icons/footer/vixylogo.png"
+        src={getAssetPath("/icons/footer/vixylogo.png")}
+
         alt="Vixy Rider Logo"
         width={300}
         height={200}
