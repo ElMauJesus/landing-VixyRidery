@@ -1,0 +1,113 @@
+.section {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.leftCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.title {
+  font-size: 2.4rem;
+  text-transform: uppercase;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+
+.description {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.middleCol {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.riderFrame {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  justify-content: center;
+}
+
+.riderSvg {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 12px 25px rgba(94, 23, 235, 0.15));
+}
+
+.rightCol {
+  width: 100%;
+}
+
+.perksCard {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.perkRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.iconBox {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(94, 23, 235, 0.15);
+}
+
+.perkInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.perkTitle {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--heading-dark);
+  margin-bottom: 0.15rem;
+}
+
+.perkDesc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+/* Responsive (Mobile First) */
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .title {
+    font-size: 2.8rem;
+  }
+}

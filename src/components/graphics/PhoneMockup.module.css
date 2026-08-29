@@ -1,0 +1,369 @@
+.phoneContainer {
+  perspective: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.phoneFrame {
+  width: 100%;
+  max-width: 320px;
+  background: #09090B;
+  border-radius: 44px;
+  padding: 12px;
+  box-shadow: 
+    0 25px 50px -12px rgba(94, 23, 235, 0.35),
+    0 0 0 12px #18181B,
+    0 0 0 14px #27272A;
+  position: relative;
+  transition: transform var(--transition-normal);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.phoneFrame:hover {
+  transform: translateY(-6px) rotateY(-3deg);
+}
+
+/* Dynamic Island */
+.dynamicIsland {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 22px;
+  background: #000000;
+  border-radius: 12px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+}
+
+.cameraLens {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #1A1A2E;
+  border: 1px solid #33334D;
+}
+
+/* Phone Screen */
+.phoneScreen {
+  background: #0D0A1C;
+  border-radius: 34px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  color: #FFFFFF;
+  font-size: 0.85rem;
+  position: relative;
+  min-height: 560px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Status Bar */
+.statusBar {
+  height: 38px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 20px 4px 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #E2E8F0;
+  z-index: 10;
+}
+
+.statusIcons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.signalDots {
+  width: 12px;
+  height: 10px;
+  background: radial-gradient(circle, #FFF 40%, transparent 40%);
+}
+
+.batteryIcon {
+  width: 18px;
+  height: 9px;
+  border: 1.5px solid #FFFFFF;
+  border-radius: 3px;
+  position: relative;
+}
+.batteryIcon::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: 2px;
+  width: 2px;
+  height: 3px;
+  background: #FFFFFF;
+  border-radius: 0 1px 1px 0;
+}
+
+/* Header & Greeting */
+.appHeader {
+  padding: 10px 16px;
+  z-index: 10;
+}
+
+.greetingSub {
+  font-size: 0.75rem;
+  color: #A098C5;
+}
+
+.greetingTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-top: 2px;
+}
+
+.searchBox {
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #A098C5;
+}
+
+.placeholderText {
+  font-size: 0.78rem;
+}
+
+/* Map Area */
+.mapArea {
+  flex: 1;
+  background: #130F2A;
+  position: relative;
+  overflow: hidden;
+  min-height: 200px;
+}
+
+@keyframes panMapGrid {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
+}
+
+.mapGrid {
+  position: absolute;
+  inset: -40px;
+  background-size: 20px 20px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  animation: panMapGrid 4s linear infinite;
+}
+
+.routeSvg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.pulseDot {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.8); opacity: 0.7; }
+  50% { transform: scale(1.4); opacity: 0.2; }
+  100% { transform: scale(0.8); opacity: 0.7; }
+}
+
+@keyframes riderGlow {
+  0%, 100% {
+    box-shadow: 0 0 12px #9D4EDD, 0 0 0 0px rgba(94, 23, 235, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 20px #C77DFF, 0 0 0 8px rgba(94, 23, 235, 0);
+  }
+}
+
+.riderPin {
+  position: absolute;
+  top: 42%;
+  left: 48%;
+  background: #5E17EB;
+  padding: 6px;
+  border-radius: 50%;
+  animation: riderGlow 2s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+
+/* Ride Options Card */
+.rideCard {
+  background: #1B1537;
+  border-radius: 20px 20px 0 0;
+  padding: 14px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.vehicleOption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 12px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(94, 23, 235, 0.4);
+}
+
+.vehicleIconBadge {
+  background: var(--primary-purple);
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vehicleDetails {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.vehicleTitle {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #FFFFFF;
+}
+
+.vehicleSub {
+  font-size: 0.7rem;
+  color: #A098C5;
+}
+
+.vehiclePrice {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #FFFFFF;
+}
+
+.requestBtn {
+  width: 100%;
+  background: linear-gradient(135deg, #7B2CBF 0%, #5E17EB 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 12px;
+  padding: 10px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  box-shadow: 0 4px 15px rgba(94, 23, 235, 0.4);
+  cursor: pointer;
+}
+
+/* Bottom Nav */
+.bottomNav {
+  height: 54px;
+  background: #110D25;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.navTab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: #6C668D;
+  font-size: 0.65rem;
+}
+
+.activeTab {
+  color: #9D4EDD;
+}
+
+/* Mobile Responsiveness for Phone Sizing */
+@media (max-width: 768px) {
+  .phoneFrame {
+    max-width: 250px;
+    border-radius: 36px;
+    padding: 8px;
+    box-shadow: 
+      0 15px 35px -10px rgba(94, 23, 235, 0.3),
+      0 0 0 8px #18181B,
+      0 0 0 10px #27272A;
+  }
+
+  .dynamicIsland {
+    top: 12px;
+    width: 75px;
+    height: 18px;
+  }
+
+  .phoneScreen {
+    min-height: 450px;
+    border-radius: 28px;
+  }
+
+  .statusBar {
+    height: 30px;
+    padding: 0 14px 2px 14px;
+  }
+
+  .appHeader {
+    padding: 6px 12px;
+  }
+
+  .greetingTitle {
+    font-size: 0.95rem;
+  }
+
+  .searchBox {
+    margin-top: 6px;
+    padding: 6px 10px;
+  }
+
+  .mapArea {
+    min-height: 160px;
+  }
+
+  .rideCard {
+    padding: 10px 12px;
+  }
+
+  .vehicleOption {
+    padding: 6px 10px;
+    margin-bottom: 8px;
+  }
+
+  .requestBtn {
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+
+  .bottomNav {
+    height: 44px;
+  }
+}
+

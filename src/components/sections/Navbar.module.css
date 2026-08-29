@@ -1,0 +1,137 @@
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(250, 249, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(235, 229, 248, 0.6);
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+}
+
+.navContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+}
+
+.desktopNav {
+  display: none;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.navLink {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--dark-navy);
+  transition: color var(--transition-fast);
+  position: relative;
+}
+
+.navLink:hover {
+  color: var(--primary-purple);
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--primary-purple);
+  border-radius: 2px;
+  transition: width var(--transition-fast);
+}
+
+.navLink:hover::after {
+  width: 100%;
+}
+
+.desktopCta {
+  display: none;
+}
+
+.menuToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem;
+  color: var(--dark-navy);
+  background: var(--primary-light);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+
+.menuToggle:hover {
+  background: #EAE0FA;
+}
+
+/* Mobile Drawer */
+.mobileDrawer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-light);
+  box-shadow: 0 16px 36px rgba(13, 11, 38, 0.12);
+  z-index: 99;
+}
+
+.mobileNav {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1.5rem 1.75rem 1.5rem;
+  gap: 1rem;
+}
+
+.mobileNavLink {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--dark-navy);
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #F3EFFC;
+  transition: color var(--transition-fast);
+}
+
+.mobileNavLink:hover {
+  color: var(--primary-purple);
+}
+
+.mobileCtaWrapper {
+  margin-top: 0.75rem;
+}
+
+/* Responsive Media Queries */
+@media (min-width: 1024px) {
+  .desktopNav {
+    display: flex;
+  }
+
+  .desktopCta {
+    display: flex;
+  }
+
+  .menuToggle {
+    display: none;
+  }
+
+  .mobileDrawer {
+    display: none !important;
+  }
+}
