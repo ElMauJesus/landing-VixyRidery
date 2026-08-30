@@ -34,8 +34,9 @@
 }
 
 .description {
-  font-size: 1.1rem;
-  color: var(--text-muted);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--text-body);
   max-width: 480px;
   margin-bottom: 2rem;
   line-height: 1.6;
@@ -64,11 +65,11 @@
 }
 
 .badgeLabel {
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: 0.78rem;
+  font-weight: 800;
   text-transform: uppercase;
-  color: var(--text-muted);
-  letter-spacing: 0.05em;
+  color: var(--text-body);
+  letter-spacing: 0.08em;
   padding-left: 0.2rem;
 }
 

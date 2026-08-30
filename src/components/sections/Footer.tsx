@@ -27,7 +27,7 @@ export const Footer: React.FC = () => {
         <div className={styles.socialRow}>
           {/* Instagram */}
           <a
-            href="https://instagram.com"
+            href="https://www.instagram.com/vixyridervzla"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.socialBtn}
@@ -43,7 +43,7 @@ export const Footer: React.FC = () => {
 
           {/* Facebook */}
           <a
-            href="https://facebook.com"
+            href="https://www.facebook.com/profile.php?id=61590775791299"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.socialBtn}
@@ -59,7 +59,7 @@ export const Footer: React.FC = () => {
 
           {/* TikTok */}
           <a
-            href="https://tiktok.com"
+            href="https://www.tiktok.com/@vixy.rider"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.socialBtn}
@@ -75,7 +75,7 @@ export const Footer: React.FC = () => {
 
           {/* WhatsApp */}
           <a
-            href="https://whatsapp.com"
+            href="https://wa.me/584242472477"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.socialBtn}
