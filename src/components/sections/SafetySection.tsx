@@ -17,16 +17,27 @@ export const SafetySection: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
+          {/* Banner para mobile/tablet (< 1000px) */}
           <Image
-            src={getAssetPath("/icons/footer/vixybanner2.png")}
-
+            src={getAssetPath("/icons/footer/vixybanner2tlf2.png")}
             alt="Tu Seguridad, Nuestra Prioridad - Vixy Rider"
             width={1400}
             height={500}
             quality={100}
             priority
-            className={styles.bannerImg}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 95vw, 1200px"
+            className={`${styles.bannerImg} ${styles.bannerMobile}`}
+            sizes="100vw"
+          />
+          {/* Banner para desktop (≥ 1000px) */}
+          <Image
+            src={getAssetPath("/icons/footer/vixybanner2.png")}
+            alt="Tu Seguridad, Nuestra Prioridad - Vixy Rider"
+            width={1400}
+            height={500}
+            quality={100}
+            priority
+            className={`${styles.bannerImg} ${styles.bannerDesktop}`}
+            sizes="(max-width: 1200px) 95vw, 1200px"
           />
         </motion.div>
       </div>

@@ -27,7 +27,7 @@ export const Navbar: React.FC = () => {
       <div className={`container ${styles.navContainer}`}>
         {/* Brand Logo */}
         <Link href="#inicio" className={styles.logoLink}>
-          <VixyLogo size="md" />
+          <VixyLogo size="sm" />
         </Link>
 
         {/* Desktop Navigation Links */}

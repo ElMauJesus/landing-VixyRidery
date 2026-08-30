@@ -1,21 +1,27 @@
 .heroSection {
-  padding-top: 3.5rem;
-  padding-bottom: 4rem;
+  padding-top: 4rem;
+  padding-bottom: 5rem;
+  min-height: calc(100vh - var(--nav-height));
+  display: flex;
+  align-items: center;
   position: relative;
   overflow: hidden;
+  background-size: contain;
+  background-position: right center;
+  background-repeat: no-repeat;
 }
 
-.heroGrid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 3rem;
-  align-items: center;
+.heroContent {
+  width: 100%;
+  position: relative;
+  z-index: 2;
 }
 
 .textContent {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  max-width: 650px;
 }
 
 .mainTitle {
@@ -30,7 +36,7 @@
 .description {
   font-size: 1.1rem;
   color: var(--text-muted);
-  max-width: 460px;
+  max-width: 480px;
   margin-bottom: 2rem;
   line-height: 1.6;
 }
@@ -39,7 +45,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   width: 100%;
 }
 
@@ -87,48 +93,56 @@
   object-fit: contain;
 }
 
-/* Graphic Column */
-.graphicColumn {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+  .heroSection {
+    padding-top: 2.5rem;
+    padding-bottom: 4rem;
+    min-height: auto;
+    background-size: cover;
+    background-position: 80% center;
+  }
+
+  .mainTitle {
+    font-size: 2.2rem;
+  }
+
+  .description {
+    font-size: 1rem;
+  }
+
+  .ctaGroup {
+    flex-direction: column;
+  }
+
+  .ctaGroup > * {
+    width: 100%;
+  }
+
+  .badgesGroup {
+    gap: 1rem;
+  }
 }
 
-.mascotBg {
-  position: absolute;
-  top: -20px;
-  right: 10%;
-  z-index: 1;
-  opacity: 0.95;
-}
+@media (min-width: 769px) and (max-width: 1024px) {
+  .heroSection {
+    background-size: contain;
+    background-position: right center;
+  }
 
-.mockupWrapper {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-}
-
-/* Responsive Media Queries (Mobile First) */
-@media (min-width: 640px) {
   .mainTitle {
     font-size: 3rem;
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1025px) {
   .heroSection {
-    padding-top: 5rem;
-    padding-bottom: 6rem;
-  }
-
-  .heroGrid {
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 2rem;
+    background-size: contain;
+    background-position: right center;
   }
 
   .mainTitle {
-    font-size: 3.5rem;
+    font-size: 3.8rem;
   }
 
   .description {
@@ -138,6 +152,6 @@
 
 @media (min-width: 1280px) {
   .mainTitle {
-    font-size: 4rem;
+    font-size: 4.2rem;
   }
 }

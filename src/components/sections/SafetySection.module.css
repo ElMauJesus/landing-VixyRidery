@@ -43,5 +43,33 @@
   }
 }
 
+/* Intercambio de banner según resolución */
+.bannerMobile {
+  display: block;
+  /* Imagen vertical/teléfono: limitar ancho y centrar para que se vea completa */
+  max-width: 480px;
+  margin: 0 auto;
+  height: auto;
+  object-fit: contain;
+}
 
+.bannerDesktop {
+  display: none;
+}
 
+@media (min-width: 640px) {
+  .bannerMobile {
+    max-width: 560px;
+  }
+}
+
+@media (min-width: 1000px) {
+  .bannerMobile {
+    display: none;
+  }
+
+  .bannerDesktop {
+    display: block;
+    max-width: 100%;
+  }
+}

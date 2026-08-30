@@ -1,62 +1,81 @@
 .footer {
-  background: #FFFFFF;
+  background: #FAF9FF;
   border-top: 1px solid var(--border-light);
   padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
 }
 
-.footerContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.topRow {
+.footerInner {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
+  text-align: center;
 }
 
-.socialGroup {
+/* Logo — smaller than default */
+.logoWrap {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Social icons row */
+.socialRow {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
 .socialBtn {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  background: var(--bg-page);
+  background: #FFFFFF;
+  box-shadow: 0 2px 12px rgba(13, 11, 38, 0.07);
   border: 1px solid var(--border-light);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
 }
 
 .socialBtn:hover {
   transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(94, 23, 235, 0.18);
   border-color: var(--primary-purple);
-  background: var(--primary-light);
 }
 
-.bottomRow {
-  text-align: center;
-  border-top: 1px solid #F3EFFC;
-  padding-top: 1.25rem;
+/* Divider */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: #EDE8F9;
 }
 
+/* Copyright */
 .copyright {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--text-light);
+  letter-spacing: 0.01em;
 }
 
-/* Responsive (Mobile First) */
-@media (min-width: 640px) {
-  .topRow {
-    flex-direction: row;
-    justify-content: space-between;
+/* Responsive: on larger screens just keep it centered, maybe a bit more spacious */
+@media (min-width: 768px) {
+  .footer {
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+  }
+
+  .footerInner {
+    gap: 2rem;
+  }
+
+  .socialRow {
+    gap: 1.25rem;
+  }
+
+  .socialBtn {
+    width: 54px;
+    height: 54px;
   }
 }

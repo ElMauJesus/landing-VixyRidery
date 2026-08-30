@@ -6,19 +6,21 @@ import { motion } from "framer-motion";
 import { Download, User } from "lucide-react";
 import { getAssetPath } from "@/utils/basePath";
 import { Button } from "../ui/Button";
-import { PhoneMockup } from "../graphics/PhoneMockup";
-import { MascotIllustration } from "../graphics/MascotIllustration";
 import styles from "./HeroSection.module.css";
 
 export const HeroSection: React.FC = () => {
   return (
-    <section id="inicio" className={styles.heroSection}>
-      <div className={`container ${styles.heroGrid}`}>
-        {/* Left Column - Headline & CTAs */}
+    <section
+      id="inicio"
+      className={styles.heroSection}
+      style={{ backgroundImage: `url('${getAssetPath("/icons/footer/vixyfondo.png")}')` }}
+    >
+      <div className={`container ${styles.heroContent}`}>
+        {/* Headline & CTAs — full width, no right column */}
         <motion.div
           className={styles.textContent}
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
           <h1 className={styles.mainTitle}>
@@ -75,7 +77,6 @@ export const HeroSection: React.FC = () => {
               >
                 <Image
                   src={getAssetPath("/icons/footer/appstore.png")}
-
                   alt="App Store"
                   width={160}
                   height={48}
@@ -83,24 +84,6 @@ export const HeroSection: React.FC = () => {
                 />
               </a>
             </div>
-          </div>
-        </motion.div>
-
-        {/* Right Column - Hero Graphic & Phone Mockup */}
-        <motion.div
-          className={styles.graphicColumn}
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-        >
-          {/* Background Mascot Illustration */}
-          <div className={styles.mascotBg}>
-            <MascotIllustration variant="hero" />
-          </div>
-
-          {/* Foreground 3D Smartphone */}
-          <div className={styles.mockupWrapper}>
-            <PhoneMockup />
           </div>
         </motion.div>
       </div>
