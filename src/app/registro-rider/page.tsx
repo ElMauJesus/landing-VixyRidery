@@ -307,6 +307,8 @@ function PaymentModal({
 /* ─── Main Page ──────────────────────────────────── */
 export default function RegistroRiderPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [activePaymentModal, setActivePaymentModal] = useState<PaymentModal>(null);
 
   const emptyFile = (): FileField => ({ file: null, preview: null });
@@ -363,24 +365,36 @@ export default function RegistroRiderPage() {
     fd.append("metodo_pago", form.metodoPago);
     fd.append("referencia_pago", form.referenciaPago);
     // Files
-    if (form.selfie.file)       fd.append("selfie", form.selfie.file);
-    if (form.licencia.file)     fd.append("licencia", form.licencia.file);
-    if (form.rcv.file)          fd.append("rcv", form.rcv.file);
-    if (form.certMedico.file)   fd.append("cert_medico", form.certMedico.file);
+    if (form.selfie.file) fd.append("selfie", form.selfie.file);
+    if (form.licencia.file) fd.append("licencia", form.licencia.file);
+    if (form.rcv.file) fd.append("rcv", form.rcv.file);
+    if (form.certMedico.file) fd.append("cert_medico", form.certMedico.file);
     if (form.fotoVehiculo.file) fd.append("foto_vehiculo", form.fotoVehiculo.file);
     return fd;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    /* 
-      TODO: Conectar con endpoint PHP
+    setLoading(true);
+    setErrorMessage(null);
+    try {
       const fd = buildFormData();
-      const res = await fetch("/api/registro-rider.php", { method: "POST", body: fd });
-      if (res.ok) setSubmitted(true);
-    */
-    // Por ahora: mostrar pantalla de éxito directamente
-    setSubmitted(true);
+      const res = await fetch("http://localhost/api/registro-rider.php", {
+        method: "POST",
+        body: fd,
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setSubmitted(true);
+      } else {
+        setErrorMessage(data.message || "Error al procesar el registro.");
+      }
+    } catch (err) {
+      console.error(err);
+      setErrorMessage("No se pudo conectar con el backend PHP (XAMPP). Verifica que Apache y MySQL estén iniciados.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   /* ── Success Screen ── */
@@ -851,18 +865,34 @@ export default function RegistroRiderPage() {
                 </span>
               </label>
 
+              {errorMessage && (
+                <div style={{
+                  backgroundColor: "rgba(239, 68, 68, 0.1)",
+                  border: "1px solid rgba(239, 68, 68, 0.3)",
+                  color: "#ef4444",
+                  padding: "0.85rem 1.2rem",
+                  borderRadius: "10px",
+                  fontSize: "0.92rem",
+                  marginBottom: "1rem",
+                  textAlign: "center"
+                }}>
+                  {errorMessage}
+                </div>
+              )}
+
               <button
                 type="submit"
                 id="registro-submit-btn"
                 className={styles.submitBtn}
                 disabled={
+                  loading ||
                   !form.nombre || !form.apellido || !form.cedula ||
                   !form.email || !form.telefono || !form.placa ||
                   !form.metodoPago || !form.referenciaPago || !form.terminos
                 }
               >
                 <Send size={18} />
-                Enviar solicitud de registro
+                {loading ? "Enviando registro..." : "Enviar solicitud de registro"}
               </button>
             </div>
 
