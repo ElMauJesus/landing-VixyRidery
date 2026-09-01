@@ -14,6 +14,7 @@ interface ButtonProps {
   className?: string;
   type?: "button" | "submit" | "reset";
   fullWidth?: boolean;
+  id?: string;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -26,6 +27,7 @@ export const Button: React.FC<ButtonProps> = ({
   className = "",
   type = "button",
   fullWidth = false,
+  id,
 }) => {
   return (
     <motion.button
@@ -33,6 +35,7 @@ export const Button: React.FC<ButtonProps> = ({
       whileTap={{ scale: 0.97 }}
       type={type}
       onClick={onClick}
+      id={id}
       className={`${styles.button} ${styles[variant]} ${styles[size]} ${
         fullWidth ? styles.fullWidth : ""
       } ${className}`}

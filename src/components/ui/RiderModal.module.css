@@ -1,0 +1,266 @@
+/* =============================================
+   RIDER MODAL — Mobile First
+   ============================================= */
+
+/* Overlay: fondo semitransparente */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(13, 11, 38, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: fadeInOverlay 0.25s ease forwards;
+}
+
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Modal card */
+.modal {
+  position: relative;
+  background: #ffffff;
+  border-radius: 28px 28px 0 0;
+  width: 100%;
+  max-width: 480px;
+  padding: 2rem 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* Barra decorativa superior (pill) */
+.modal::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 4px;
+  border-radius: 9999px;
+  background: #e0d7f5;
+}
+
+/* Botón cerrar */
+.closeBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #f1edf9;
+  color: #5E17EB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+  z-index: 10;
+}
+
+.closeBtn:hover {
+  background: #e0d5f5;
+  transform: scale(1.1);
+}
+
+/* Logo */
+.logoWrapper {
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+  width: 140px;
+}
+
+.logo {
+  width: 100%;
+  height: auto;
+}
+
+/* Bloque de texto */
+.textBlock {
+  margin-bottom: 0.5rem;
+}
+
+.title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #1A153A;
+  line-height: 1.15;
+  margin-bottom: 0;
+}
+
+.titleAccent {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #5E17EB 0%, #9D4EDD 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+  margin-bottom: 0.75rem;
+}
+
+.subtitle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.92rem;
+  color: #5C5776;
+  line-height: 1.55;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+.brandName {
+  color: #5E17EB;
+  font-weight: 600;
+}
+
+/* Imagen mototaxi */
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin: 0.25rem 0 0.5rem;
+  min-height: 200px;
+}
+
+/* Círculo decorativo detrás de la imagen */
+.imageBubble {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ede6ff 0%, #d8c8ff 60%, transparent 80%);
+  z-index: 0;
+}
+
+.mototaxiImg {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  max-height: 220px;
+  object-fit: contain;
+  object-position: bottom center;
+  filter: drop-shadow(0 8px 20px rgba(94, 23, 235, 0.2));
+}
+
+/* CTA Button */
+.ctaBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  max-width: 360px;
+  padding: 1rem 1.5rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #5E17EB 0%, #7B2CBF 100%);
+  color: #ffffff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  box-shadow: 0 6px 20px rgba(94, 23, 235, 0.35);
+  letter-spacing: 0.01em;
+}
+
+.ctaBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(94, 23, 235, 0.45);
+  filter: brightness(1.08);
+}
+
+.ctaBtn:active {
+  transform: translateY(0);
+}
+
+.ctaArrow {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.ctaBtn:hover .ctaArrow {
+  transform: translateX(4px);
+}
+
+/* =============================================
+   Tablet / Desktop — centrado en pantalla
+   ============================================= */
+@media (min-width: 600px) {
+  .overlay {
+    align-items: center;
+  }
+
+  .modal {
+    border-radius: 28px;
+    padding: 2.5rem 2rem 2rem;
+    max-width: 430px;
+    animation: zoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Ocultar pill en tablet+ */
+  .modal::before {
+    display: none;
+  }
+
+  @keyframes zoomIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+
+  .logoWrapper {
+    width: 160px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .titleAccent {
+    font-size: 2.4rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    max-width: 300px;
+  }
+
+  .imageWrapper {
+    max-width: 340px;
+    min-height: 240px;
+  }
+
+  .imageBubble {
+    width: 260px;
+    height: 260px;
+  }
+
+  .mototaxiImg {
+    max-height: 260px;
+  }
+}
