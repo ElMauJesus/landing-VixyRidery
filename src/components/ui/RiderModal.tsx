@@ -36,7 +36,7 @@ export const RiderModal: React.FC<RiderModalProps> = ({ isOpen, onClose }) => {
 
   const handleRegister = () => {
     onClose();
-    window.location.href = "/registro-rider";
+    window.location.href = getAssetPath("/registro-rider");
   };
 
   if (!isOpen) return null;
