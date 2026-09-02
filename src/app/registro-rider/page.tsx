@@ -399,7 +399,8 @@ export default function RegistroRiderPage() {
 
     try {
       const fd = buildFormData();
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost/api/registro-rider.php";
+      const defaultApiUrl = typeof window !== 'undefined' ? `${window.location.origin}/api/registro-rider.php` : "/api/registro-rider.php";
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || defaultApiUrl;
       const res = await fetch(apiUrl, {
         method: "POST",
         body: fd,

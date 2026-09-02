@@ -18,29 +18,19 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// Cargar módulo de seguridad
+// Cargar módulos de configuración y seguridad
+require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/security.php';
 
-// Configuración de la base de datos
-$host = 'localhost';
-$dbname = 'vhixvfhf_vixy_admin';
-$username = 'root';
-$password = '';
+// Obtener conexión a la base de datos
+$pdo = getDbConnection();
 
-// Conexión a la base de datos
-try {
-    $pdo = new PDO(
-        "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
-        $username,
-        $password,
-        [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-        ]
-    );
-} catch (PDOException $e) {
+if (!$pdo) {
     http_response_code(500);
-    echo json_encode(["success" => false, "message" => "Error de conexión"]);
+    echo json_encode([
+        "success" => false, 
+        "message" => "Error de conexión a la base de datos. Por favor verifica las credenciales o el estado del servidor remoto."
+    ]);
     exit;
 }
 
