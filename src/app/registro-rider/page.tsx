@@ -10,6 +10,7 @@ import {
   ChevronRight, Lock, Send
 } from "lucide-react";
 import { getAssetPath } from "@/utils/basePath";
+import { sanitizeString, validateFile } from "@/utils/security";
 import styles from "./page.module.css";
 
 /* ─── Types ─────────────────────────────────────── */
@@ -349,21 +350,21 @@ export default function RegistroRiderPage() {
     []
   );
 
-  /* Build FormData for PHP submission */
+  /* Build FormData for PHP submission with sanitization */
   const buildFormData = (): FormData => {
     const fd = new FormData();
-    fd.append("nombre", form.nombre);
-    fd.append("apellido", form.apellido);
-    fd.append("cedula", form.cedula);
-    fd.append("email", form.email);
-    fd.append("telefono", form.telefono);
-    fd.append("tipo_vehiculo", form.tipoVehiculo);
-    fd.append("modelo_vehiculo", form.modeloVehiculo);
-    fd.append("marca_vehiculo", form.marcaVehiculo);
-    fd.append("color_vehiculo", form.colorVehiculo);
-    fd.append("placa", form.placa);
-    fd.append("metodo_pago", form.metodoPago);
-    fd.append("referencia_pago", form.referenciaPago);
+    fd.append("nombre", sanitizeString(form.nombre));
+    fd.append("apellido", sanitizeString(form.apellido));
+    fd.append("cedula", sanitizeString(form.cedula));
+    fd.append("email", sanitizeString(form.email));
+    fd.append("telefono", sanitizeString(form.telefono));
+    fd.append("tipo_vehiculo", sanitizeString(form.tipoVehiculo));
+    fd.append("modelo_vehiculo", sanitizeString(form.modeloVehiculo));
+    fd.append("marca_vehiculo", sanitizeString(form.marcaVehiculo));
+    fd.append("color_vehiculo", sanitizeString(form.colorVehiculo));
+    fd.append("placa", sanitizeString(form.placa));
+    fd.append("metodo_pago", sanitizeString(form.metodoPago));
+    fd.append("referencia_pago", sanitizeString(form.referenciaPago));
     // Files
     if (form.selfie.file) fd.append("selfie", form.selfie.file);
     if (form.licencia.file) fd.append("licencia", form.licencia.file);
@@ -377,9 +378,29 @@ export default function RegistroRiderPage() {
     e.preventDefault();
     setLoading(true);
     setErrorMessage(null);
+
+    // Validar archivos adjuntos en el cliente antes de enviar
+    const filesToValidate = [
+      form.selfie.file,
+      form.licencia.file,
+      form.rcv.file,
+      form.certMedico.file,
+      form.fotoVehiculo.file,
+    ].filter(Boolean) as File[];
+
+    for (const file of filesToValidate) {
+      const check = validateFile(file);
+      if (!check.valid) {
+        setErrorMessage(check.error || "Archivo no válido.");
+        setLoading(false);
+        return;
+      }
+    }
+
     try {
       const fd = buildFormData();
-      const res = await fetch("http://localhost/api/registro-rider.php", {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost/api/registro-rider.php";
+      const res = await fetch(apiUrl, {
         method: "POST",
         body: fd,
       });
@@ -391,7 +412,7 @@ export default function RegistroRiderPage() {
       }
     } catch (err) {
       console.error(err);
-      setErrorMessage("No se pudo conectar con el backend PHP (XAMPP). Verifica que Apache y MySQL estén iniciados.");
+      setErrorMessage("No se pudo conectar con el backend PHP. Verifica que Apache y MySQL estén iniciados o la URL del API sea correcta.");
     } finally {
       setLoading(false);
     }

@@ -18,6 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+// Cargar módulo de seguridad
+require_once __DIR__ . '/security.php';
+
 // Configuración de la base de datos
 $host = 'localhost';
 $dbname = 'vhixvfhf_vixy_admin';
