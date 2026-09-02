@@ -24,8 +24,8 @@ require_once __DIR__ . '/security.php';
 // Configuración de la base de datos
 $host = 'localhost';
 $dbname = 'vhixvfhf_vixy_admin';
-$username = 'root';  // Cambia si usas otro usuario
-$password = '';      // Cambia si tienes contraseña
+$username = 'root';
+$password = '';
 
 // Conexión a la base de datos
 try {
@@ -40,7 +40,7 @@ try {
     );
 } catch (PDOException $e) {
     http_response_code(500);
-    echo json_encode(["success" => false, "message" => "Error de conexión: " . $e->getMessage()]);
+    echo json_encode(["success" => false, "message" => "Error de conexión"]);
     exit;
 }
 
@@ -48,17 +48,14 @@ try {
 function saveFile($file, $folder) {
     $uploadDir = __DIR__ . "/../uploads/drivers/$folder/";
     
-    // Crear carpeta si no existe
     if (!file_exists($uploadDir)) {
         mkdir($uploadDir, 0777, true);
     }
     
-    // Generar nombre único
-    $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+    $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
     $filename = uniqid() . '_' . time() . '.' . $extension;
     $destination = $uploadDir . $filename;
     
-    // Mover archivo
     if (move_uploaded_file($file['tmp_name'], $destination)) {
         return "/uploads/drivers/$folder/$filename";
     }
@@ -66,19 +63,19 @@ function saveFile($file, $folder) {
     return null;
 }
 
-// Recibir datos del formulario
-$nombre = $_POST['nombre'] ?? '';
-$apellido = $_POST['apellido'] ?? '';
-$cedula = $_POST['cedula'] ?? '';
-$email = $_POST['email'] ?? '';
-$telefono = $_POST['telefono'] ?? '';
-$tipoVehiculo = $_POST['tipo_vehiculo'] ?? 'moto';
-$modeloVehiculo = $_POST['modelo_vehiculo'] ?? '';
-$marcaVehiculo = $_POST['marca_vehiculo'] ?? '';
-$colorVehiculo = $_POST['color_vehiculo'] ?? '';
-$placa = $_POST['placa'] ?? '';
-$metodoPago = $_POST['metodo_pago'] ?? '';
-$referenciaPago = $_POST['referencia_pago'] ?? '';
+// Recibir y sanitizar datos del formulario
+$nombre = sanitize_input($_POST['nombre'] ?? '');
+$apellido = sanitize_input($_POST['apellido'] ?? '');
+$cedula = sanitize_input($_POST['cedula'] ?? '');
+$email = validate_email($_POST['email'] ?? '');
+$telefono = sanitize_input($_POST['telefono'] ?? '');
+$tipoVehiculo = sanitize_input($_POST['tipo_vehiculo'] ?? 'moto');
+$modeloVehiculo = sanitize_input($_POST['modelo_vehiculo'] ?? '');
+$marcaVehiculo = sanitize_input($_POST['marca_vehiculo'] ?? '');
+$colorVehiculo = sanitize_input($_POST['color_vehiculo'] ?? '');
+$placa = sanitize_input($_POST['placa'] ?? '');
+$metodoPago = sanitize_input($_POST['metodo_pago'] ?? '');
+$referenciaPago = sanitize_input($_POST['referencia_pago'] ?? '');
 
 // Validar campos requeridos
 if (empty($nombre) || empty($apellido) || empty($cedula) || empty($email) || empty($telefono)) {
@@ -87,12 +84,29 @@ if (empty($nombre) || empty($apellido) || empty($cedula) || empty($email) || emp
     exit;
 }
 
+// Validar archivos subidos
+$requiredFiles = ['selfie', 'licencia', 'rcv', 'cert_medico', 'foto_vehiculo'];
+foreach ($requiredFiles as $field) {
+    if (!isset($_FILES[$field]) || $_FILES[$field]['error'] === UPLOAD_ERR_NO_FILE) {
+        http_response_code(400);
+        echo json_encode(["success" => false, "message" => "Falta el archivo: $field"]);
+        exit;
+    }
+    
+    $check = validate_file_upload($_FILES[$field]);
+    if (!$check['valid']) {
+        http_response_code(400);
+        echo json_encode(["success" => false, "message" => $check['message']]);
+        exit;
+    }
+}
+
 // Guardar archivos
-$selfieUrl = isset($_FILES['selfie']) ? saveFile($_FILES['selfie'], 'selfies') : null;
-$licenciaUrl = isset($_FILES['licencia']) ? saveFile($_FILES['licencia'], 'licencias') : null;
-$rcvUrl = isset($_FILES['rcv']) ? saveFile($_FILES['rcv'], 'rcv') : null;
-$certMedicoUrl = isset($_FILES['cert_medico']) ? saveFile($_FILES['cert_medico'], 'certificados') : null;
-$fotoVehiculoUrl = isset($_FILES['foto_vehiculo']) ? saveFile($_FILES['foto_vehiculo'], 'vehiculos') : null;
+$selfieUrl = saveFile($_FILES['selfie'], 'selfies');
+$licenciaUrl = saveFile($_FILES['licencia'], 'licencias');
+$rcvUrl = saveFile($_FILES['rcv'], 'rcv');
+$certMedicoUrl = saveFile($_FILES['cert_medico'], 'certificados');
+$fotoVehiculoUrl = saveFile($_FILES['foto_vehiculo'], 'vehiculos');
 
 // Generar ID único
 $id = uniqid('drv_', true);
@@ -100,6 +114,7 @@ $id = uniqid('drv_', true);
 // Preparar la consulta SQL
 $sql = "INSERT INTO drivers (
     id, name, email, phone, category, status,
+    metodo_pago, referencia_pago,
     doc_cedula_url, doc_cedula_number,
     doc_licencia_url,
     doc_certificado_medico_url,
@@ -107,11 +122,13 @@ $sql = "INSERT INTO drivers (
     doc_foto_vehiculo_url,
     doc_plate_number,
     doc_vehicle_model,
+    doc_vehiculo_marca,
     doc_vehicle_color,
     profile_photo_url,
     registered_at
 ) VALUES (
     :id, :name, :email, :phone, :category, 'pendiente',
+    :metodo_pago, :referencia_pago,
     :doc_cedula_url, :doc_cedula_number,
     :doc_licencia_url,
     :doc_certificado_medico_url,
@@ -119,6 +136,7 @@ $sql = "INSERT INTO drivers (
     :doc_foto_vehiculo_url,
     :doc_plate_number,
     :doc_vehicle_model,
+    :doc_vehiculo_marca,
     :doc_vehicle_color,
     :profile_photo_url,
     CURDATE()
@@ -133,6 +151,8 @@ try {
         'email' => $email,
         'phone' => $telefono,
         'category' => $tipoVehiculo === 'carro' ? 'taxi' : 'mototaxi',
+        'metodo_pago' => !empty($metodoPago) ? $metodoPago : null,
+        'referencia_pago' => !empty($referenciaPago) ? $referenciaPago : null,
         'doc_cedula_url' => null,
         'doc_cedula_number' => !empty($cedula) ? $cedula : null,
         'doc_licencia_url' => $licenciaUrl,
@@ -141,6 +161,7 @@ try {
         'doc_foto_vehiculo_url' => $fotoVehiculoUrl,
         'doc_plate_number' => !empty($placa) ? $placa : null,
         'doc_vehicle_model' => !empty($modeloVehiculo) ? $modeloVehiculo : null,
+        'doc_vehiculo_marca' => !empty($marcaVehiculo) ? $marcaVehiculo : null,
         'doc_vehicle_color' => !empty($colorVehiculo) ? $colorVehiculo : null,
         'profile_photo_url' => $selfieUrl,
     ]);
@@ -154,6 +175,6 @@ try {
     
 } catch (PDOException $e) {
     http_response_code(500);
-    echo json_encode(["success" => false, "message" => "Error al guardar: " . $e->getMessage()]);
+    echo json_encode(["success" => false, "message" => "Error al guardar"]);
 }
 ?>
