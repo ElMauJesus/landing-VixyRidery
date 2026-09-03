@@ -2,6 +2,7 @@
 
 CREATE TABLE IF NOT EXISTS `drivers` (
   `id` VARCHAR(64) NOT NULL PRIMARY KEY,
+  `rider_code` VARCHAR(20) DEFAULT NULL,
   `name` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) NOT NULL,
   `phone` VARCHAR(50) NOT NULL,
@@ -19,6 +20,7 @@ CREATE TABLE IF NOT EXISTS `drivers` (
   `doc_vehicle_model` VARCHAR(100) DEFAULT NULL,
   `doc_vehiculo_marca` VARCHAR(100) DEFAULT NULL,
   `doc_vehicle_color` VARCHAR(50) DEFAULT NULL,
+  `doc_vehicle_year` VARCHAR(10) DEFAULT NULL,
   `profile_photo_url` VARCHAR(500) DEFAULT NULL,
   `registered_at` DATE NOT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP

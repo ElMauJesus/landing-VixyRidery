@@ -39,6 +39,7 @@ interface FormState {
   fotoVehiculo: FileField;
   modeloVehiculo: string;
   marcaVehiculo: string;
+  yearVehiculo: string;
   colorVehiculo: string;
   placa: string;
   // Pago
@@ -328,6 +329,7 @@ export default function RegistroRiderPage() {
     fotoVehiculo: emptyFile(),
     modeloVehiculo: "",
     marcaVehiculo: "",
+    yearVehiculo: "",
     colorVehiculo: "",
     placa: "",
     metodoPago: "",
@@ -361,6 +363,7 @@ export default function RegistroRiderPage() {
     fd.append("tipo_vehiculo", sanitizeString(form.tipoVehiculo));
     fd.append("modelo_vehiculo", sanitizeString(form.modeloVehiculo));
     fd.append("marca_vehiculo", sanitizeString(form.marcaVehiculo));
+    fd.append("year_vehicle", sanitizeString(form.yearVehiculo));
     fd.append("color_vehiculo", sanitizeString(form.colorVehiculo));
     fd.append("placa", sanitizeString(form.placa));
     fd.append("metodo_pago", sanitizeString(form.metodoPago));
@@ -718,6 +721,16 @@ export default function RegistroRiderPage() {
                         placeholder={form.tipoVehiculo === "moto" ? "Ej: Empire" : "Ej: Toyota"}
                         value={form.marcaVehiculo}
                         onChange={setTextField("marcaVehiculo")}
+                        className={styles.input}
+                      />
+                    </div>
+                    <div className={styles.fieldGroup}>
+                      <label htmlFor="yearVehiculo" className={styles.label}>Año del vehículo</label>
+                      <input
+                        id="yearVehiculo" name="year_vehicle" type="text" required
+                        placeholder="Ej: 2022"
+                        value={form.yearVehiculo}
+                        onChange={setTextField("yearVehiculo")}
                         className={styles.input}
                       />
                     </div>

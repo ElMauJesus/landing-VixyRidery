@@ -34,8 +34,15 @@ if (!$pdo) {
     exit;
 }
 
-// Función para guardar archivos
-function saveFile($file, $folder) {
+// Función para generar código único del rider
+function generateRiderCode() {
+    $fecha = date('Ymd');
+    $random = strtoupper(substr(bin2hex(random_bytes(4)), 0, 8));
+    return "VX-$fecha-$random";
+}
+
+// Función para guardar archivos con prefijo único
+function saveFileWithCode($file, $folder, $prefijo) {
     $uploadDir = __DIR__ . "/../uploads/drivers/$folder/";
     
     if (!file_exists($uploadDir)) {
@@ -43,7 +50,7 @@ function saveFile($file, $folder) {
     }
     
     $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-    $filename = uniqid() . '_' . time() . '.' . $extension;
+    $filename = $prefijo . '.' . $extension;
     $destination = $uploadDir . $filename;
     
     if (move_uploaded_file($file['tmp_name'], $destination)) {
@@ -62,6 +69,7 @@ $telefono = sanitize_input($_POST['telefono'] ?? '');
 $tipoVehiculo = sanitize_input($_POST['tipo_vehiculo'] ?? 'moto');
 $modeloVehiculo = sanitize_input($_POST['modelo_vehiculo'] ?? '');
 $marcaVehiculo = sanitize_input($_POST['marca_vehiculo'] ?? '');
+$yearVehiculo = sanitize_input($_POST['year_vehicle'] ?? '');
 $colorVehiculo = sanitize_input($_POST['color_vehiculo'] ?? '');
 $placa = sanitize_input($_POST['placa'] ?? '');
 $metodoPago = sanitize_input($_POST['metodo_pago'] ?? '');
@@ -91,19 +99,22 @@ foreach ($requiredFiles as $field) {
     }
 }
 
-// Guardar archivos
-$selfieUrl = saveFile($_FILES['selfie'], 'selfies');
-$licenciaUrl = saveFile($_FILES['licencia'], 'licencias');
-$rcvUrl = saveFile($_FILES['rcv'], 'rcv');
-$certMedicoUrl = saveFile($_FILES['cert_medico'], 'certificados');
-$fotoVehiculoUrl = saveFile($_FILES['foto_vehiculo'], 'vehiculos');
+// Generar código único del rider
+$riderCode = generateRiderCode();
+
+// Guardar archivos con código único
+$selfieUrl = saveFileWithCode($_FILES['selfie'], 'selfies', $riderCode . '-selfie');
+$licenciaUrl = saveFileWithCode($_FILES['licencia'], 'licencias', $riderCode . '-licencia');
+$rcvUrl = saveFileWithCode($_FILES['rcv'], 'rcv', $riderCode . '-rcv');
+$certMedicoUrl = saveFileWithCode($_FILES['cert_medico'], 'certificados', $riderCode . '-certificado');
+$fotoVehiculoUrl = saveFileWithCode($_FILES['foto_vehiculo'], 'vehiculos', $riderCode . '-vehiculo');
 
 // Generar ID único
 $id = uniqid('drv_', true);
 
 // Preparar la consulta SQL
 $sql = "INSERT INTO drivers (
-    id, name, email, phone, category, status,
+    id, rider_code, name, email, phone, category, status,
     metodo_pago, referencia_pago,
     doc_cedula_url, doc_cedula_number,
     doc_licencia_url,
@@ -114,10 +125,11 @@ $sql = "INSERT INTO drivers (
     doc_vehicle_model,
     doc_vehiculo_marca,
     doc_vehicle_color,
+    doc_vehicle_year,
     profile_photo_url,
     registered_at
 ) VALUES (
-    :id, :name, :email, :phone, :category, 'pendiente',
+    :id, :rider_code, :name, :email, :phone, :category, 'pendiente',
     :metodo_pago, :referencia_pago,
     :doc_cedula_url, :doc_cedula_number,
     :doc_licencia_url,
@@ -128,6 +140,7 @@ $sql = "INSERT INTO drivers (
     :doc_vehicle_model,
     :doc_vehiculo_marca,
     :doc_vehicle_color,
+    :doc_vehicle_year,
     :profile_photo_url,
     CURDATE()
 )";
@@ -137,6 +150,7 @@ try {
     
     $stmt->execute([
         'id' => $id,
+        'rider_code' => $riderCode,
         'name' => $nombre . ' ' . $apellido,
         'email' => $email,
         'phone' => $telefono,
@@ -153,6 +167,7 @@ try {
         'doc_vehicle_model' => !empty($modeloVehiculo) ? $modeloVehiculo : null,
         'doc_vehiculo_marca' => !empty($marcaVehiculo) ? $marcaVehiculo : null,
         'doc_vehicle_color' => !empty($colorVehiculo) ? $colorVehiculo : null,
+        'doc_vehicle_year' => !empty($yearVehiculo) ? $yearVehiculo : null,
         'profile_photo_url' => $selfieUrl,
     ]);
     
@@ -160,7 +175,8 @@ try {
     echo json_encode([
         "success" => true,
         "message" => "Registro exitoso",
-        "driver_id" => $id
+        "driver_id" => $id,
+        "rider_code" => $riderCode
     ]);
     
 } catch (PDOException $e) {
