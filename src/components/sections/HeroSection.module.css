@@ -45,53 +45,75 @@
 .ctaGroup {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 2.5rem;
+  align-items: center;
+  gap: 1.1rem;
+  margin-top: 0.5rem;
   width: 100%;
 }
 
-.badgesGroup {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  align-items: flex-end;
+.storeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem 1.4rem;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #1a1c29 0%, #0d0e17 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
 }
 
-.badgeItem {
+.storeBtn:hover {
+  background: linear-gradient(135deg, #5E17EB 0%, #430cb8 100%);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 12px 30px rgba(94, 23, 235, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.storeIconWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.storeSvgIcon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.storeTextCol {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.35rem;
+  line-height: 1.15;
 }
 
-.badgeLabel {
-  font-size: 0.78rem;
-  font-weight: 800;
+.storeSub {
+  font-size: 0.65rem;
+  font-weight: 700;
   text-transform: uppercase;
-  color: var(--text-body);
   letter-spacing: 0.08em;
-  padding-left: 0.2rem;
+  color: rgba(255, 255, 255, 0.75);
 }
 
-.badgeLink {
-  display: inline-block;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+.storeTitle {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  white-space: nowrap;
 }
 
-.badgeLink:hover {
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 8px 20px rgba(94, 23, 235, 0.25);
-}
-
-.badgeImg {
-  display: block;
-  height: 48px;
-  width: auto;
-  border-radius: 10px;
-  object-fit: contain;
+.riderHeroBtn {
+  height: 52px;
+  border-radius: 16px !important;
 }
 
 /* Responsive Media Queries */
@@ -114,14 +136,13 @@
 
   .ctaGroup {
     flex-direction: column;
+    align-items: stretch;
   }
 
-  .ctaGroup > * {
+  .storeBtn,
+  .riderHeroBtn {
     width: 100%;
-  }
-
-  .badgesGroup {
-    gap: 1rem;
+    justify-content: center;
   }
 }
 

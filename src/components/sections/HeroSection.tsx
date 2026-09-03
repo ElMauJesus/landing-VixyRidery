@@ -3,9 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Download, User } from "lucide-react";
 import { getAssetPath } from "@/utils/basePath";
-import { Button } from "../ui/Button";
 import styles from "./HeroSection.module.css";
 
 export const HeroSection: React.FC = () => {
@@ -16,7 +14,7 @@ export const HeroSection: React.FC = () => {
       style={{ backgroundImage: `url('${getAssetPath("/icons/footer/vixyfondo.png")}')` }}
     >
       <div className={`container ${styles.heroContent}`}>
-        {/* Headline & CTAs — full width, no right column */}
+        {/* Headline & CTAs */}
         <motion.div
           className={styles.textContent}
           initial={{ opacity: 0, y: 24 }}
@@ -33,57 +31,57 @@ export const HeroSection: React.FC = () => {
             La plataforma de movilidad que conecta pasajeros y riders para que llegues siempre a tu destino.
           </p>
 
-          {/* Action Buttons */}
+          {/* Action Buttons: Google Play & App Store */}
           <div className={styles.ctaGroup}>
-            <Button variant="primary" size="lg" icon={<Download size={20} />}>
-              Descargar App
-            </Button>
-            <Button variant="outline" size="lg" icon={<User size={20} />}>
-              Soy Rider
-            </Button>
-          </div>
-
-          {/* App Store & Google Play Badges */}
-          <div className={styles.badgesGroup}>
-            {/* Google Play Item */}
-            <div className={styles.badgeItem}>
-              <span className={styles.badgeLabel}>DISPONIBLE EN</span>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.badgeLink}
-                aria-label="Disponible en Google Play"
-              >
+            {/* Google Play Button */}
+            <motion.a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.storeBtn}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              aria-label="Disponible en Google Play"
+            >
+              <div className={styles.storeIconWrap}>
                 <Image
-                  src={getAssetPath("/icons/footer/googleplay.png")}
+                  src={getAssetPath("/icons/footer/googleplay.svg")}
                   alt="Google Play"
-                  width={160}
-                  height={48}
-                  className={styles.badgeImg}
+                  width={26}
+                  height={26}
+                  className={styles.storeSvgIcon}
                 />
-              </a>
-            </div>
+              </div>
+              <div className={styles.storeTextCol}>
+                <span className={styles.storeSub}>DISPONIBLE EN</span>
+                <span className={styles.storeTitle}>GOOGLE PLAY</span>
+              </div>
+            </motion.a>
 
-            {/* App Store Item */}
-            <div className={styles.badgeItem}>
-              <span className={styles.badgeLabel}>CONSÍGUELO EN EL</span>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.badgeLink}
-                aria-label="Consígalo en App Store"
-              >
+            {/* App Store Button */}
+            <motion.a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.storeBtn}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              aria-label="Consígalo en App Store"
+            >
+              <div className={styles.storeIconWrap}>
                 <Image
-                  src={getAssetPath("/icons/footer/appstore.png")}
+                  src={getAssetPath("/icons/footer/apple.svg")}
                   alt="App Store"
-                  width={160}
-                  height={48}
-                  className={styles.badgeImg}
+                  width={26}
+                  height={26}
+                  className={styles.storeSvgIcon}
                 />
-              </a>
-            </div>
+              </div>
+              <div className={styles.storeTextCol}>
+                <span className={styles.storeSub}>CONSÍGUELO EN EL</span>
+                <span className={styles.storeTitle}>APP STORE</span>
+              </div>
+            </motion.a>
           </div>
         </motion.div>
       </div>

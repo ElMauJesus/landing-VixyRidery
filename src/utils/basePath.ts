@@ -1,5 +1,4 @@
-const isProd = process.env.NODE_ENV === "production";
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || (isProd ? "/landing-VixyRidery" : "");
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export function getAssetPath(path: string): string {
   if (!path) return "";
