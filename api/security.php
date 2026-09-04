@@ -36,7 +36,7 @@ function validate_email($email) {
 /**
  * Valida un archivo subido para prevenir subida de scripts maliciosos (.php, .sh, .exe, etc.)
  */
-function validate_file_upload($file, $maxSizeMB = 5) {
+function validate_file_upload($file, $maxSizeMB = 15) {
     if (!isset($file['error']) || is_array($file['error'])) {
         return ["valid" => false, "message" => "Parámetros de archivo no válidos"];
     }

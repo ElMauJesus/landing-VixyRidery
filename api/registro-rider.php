@@ -27,9 +27,10 @@ $pdo = getDbConnection();
 
 if (!$pdo) {
     http_response_code(500);
+    $errorDetalle = $GLOBALS['db_connection_error'] ?? 'Verifica las credenciales en api/config.php';
     echo json_encode([
         "success" => false, 
-        "message" => "Error de conexión a la base de datos. Por favor verifica las credenciales o el estado del servidor remoto."
+        "message" => "Error de conexión a la base de datos: " . $errorDetalle
     ]);
     exit;
 }
@@ -80,6 +81,38 @@ if (empty($nombre) || empty($apellido) || empty($cedula) || empty($email) || emp
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Faltan campos obligatorios"]);
     exit;
+}
+
+// Verificar que el número telefónico no esté repetido
+try {
+    $checkPhone = $pdo->prepare("SELECT id FROM drivers WHERE phone = :phone LIMIT 1");
+    $checkPhone->execute(['phone' => $telefono]);
+    if ($checkPhone->fetch()) {
+        http_response_code(409);
+        echo json_encode([
+            "success" => false, 
+            "message" => "El número telefónico ($telefono) ya se encuentra registrado."
+        ]);
+        exit;
+    }
+} catch (PDOException $e) {
+    // Continuar si la consulta de comprobación falla
+}
+
+// Verificar que la cédula de identidad no esté repetida
+try {
+    $checkCedula = $pdo->prepare("SELECT id FROM drivers WHERE doc_cedula_number = :cedula LIMIT 1");
+    $checkCedula->execute(['cedula' => $cedula]);
+    if ($checkCedula->fetch()) {
+        http_response_code(409);
+        echo json_encode([
+            "success" => false, 
+            "message" => "La cédula de identidad ($cedula) ya se encuentra registrada."
+        ]);
+        exit;
+    }
+} catch (PDOException $e) {
+    // Continuar si la consulta de comprobación falla
 }
 
 // Validar archivos subidos
@@ -181,6 +214,21 @@ try {
     
 } catch (PDOException $e) {
     http_response_code(500);
-    echo json_encode(["success" => false, "message" => "Error al guardar"]);
+    $errorCode = $e->getCode();
+    $errorMessage = $e->getMessage();
+    
+    if ($errorCode == 23000 || strpos($errorMessage, 'Duplicate entry') !== false) {
+        if (stripos($errorMessage, 'phone') !== false) {
+            $msg = "El número telefónico ($telefono) ya se encuentra registrado.";
+        } elseif (stripos($errorMessage, 'cedula') !== false || stripos($errorMessage, 'doc_cedula') !== false) {
+            $msg = "La cédula de identidad ($cedula) ya se encuentra registrada.";
+        } else {
+            $msg = "Ya existe un registro con estos datos: " . $errorMessage;
+        }
+    } else {
+        $msg = "Error al guardar en base de datos: " . $errorMessage;
+    }
+    
+    echo json_encode(["success" => false, "message" => $msg]);
 }
 ?>

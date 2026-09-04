@@ -5,7 +5,7 @@
 
 // Extensiones permitidas para carga de documentos e imágenes
 export const ALLOWED_FILE_EXTENSIONS = ["jpg", "jpeg", "png", "webp", "pdf"];
-export const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024; // 5 MB
+export const MAX_FILE_SIZE_BYTES = 15 * 1024 * 1024; // 15 MB
 
 /**
  * Sanitiza una cadena de texto para eliminar posibles etiquetas HTML / scripts maliciosos.
@@ -37,7 +37,7 @@ export function validateFile(file: File): { valid: boolean; error?: string } {
   if (file.size > MAX_FILE_SIZE_BYTES) {
     return {
       valid: false,
-      error: `El archivo "${file.name}" supera el tamaño máximo permitido (5 MB).`,
+      error: `El archivo "${file.name}" supera el tamaño máximo permitido (15 MB).`,
     };
   }
 

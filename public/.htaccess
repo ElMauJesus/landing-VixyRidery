@@ -1,6 +1,6 @@
-# Configuración Apache / cPanel para Vixy Rider
+# Configuración Apache / cPanel / Namecheap para Vixy Rider
 
-# Aumentar límites de subida para las 5 imágenes del registro
+# Aumentar límites de subida de PHP para las 5 imágenes del registro
 <IfModule mod_php7.c>
     php_value upload_max_filesize 20M
     php_value post_max_size 50M
@@ -19,7 +19,7 @@
     Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
 </IfModule>
 
-# Opciones de reescritura de URL
+# Reescritura de URL básica
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
